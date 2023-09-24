@@ -1,0 +1,25 @@
+<h1>Habits Tracker App</h1>
+<div class="checkbox-container"></div>
+
+<script>
+    fetch("/getSingle?id=650f198a92766879b3171b7e", {
+        method: "GET"
+    }).then((result) => {
+        result.json().then((habits) => {
+            const habitObject = habits[0];
+            let todoSessions = habitObject.Todo_Sessions;
+            let container = document.querySelector(".checkbox-container");
+
+            const parser = new DOMParser();
+
+            for (let i = 0; i < todoSessions; i++) {
+                let checkboxHtml = `<input type="checkbox" id="${habitObject.Name}-${i}"/>`;
+                checkboxHtml += `<label for="${habitObject.Name}-${i}">Giorno ${i}</label>`;
+                const html = parser.parseFromString(checkboxHtml, 'text/html');
+                container.append(html.body);
+            }
+        })
+    }
+    );
+
+</script>
