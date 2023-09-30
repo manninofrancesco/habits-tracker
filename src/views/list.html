@@ -2,19 +2,18 @@
 <div class="checkbox-container"></div>
 
 <script>
-    fetch("/getSingle?id=650f198a92766879b3171b7e", {
+    fetch("/getSingle?id=1", {
         method: "GET"
     }).then((result) => {
-        result.json().then((habits) => {
-            const habitObject = habits[0];
-            let todoSessions = habitObject.Todo_Sessions;
+        result.json().then((habit) => {
+            let todoSessions = habit.todo;
             let container = document.querySelector(".checkbox-container");
 
             const parser = new DOMParser();
 
-            for (let i = 0; i < todoSessions; i++) {
-                let checkboxHtml = `<input type="checkbox" id="${habitObject.Name}-${i}"/>`;
-                checkboxHtml += `<label for="${habitObject.Name}-${i}">Giorno ${i}</label>`;
+            for (let i = 1; i <= habit.todo; i++) {
+                let checkboxHtml = `<input type="checkbox" id="${habit.name}-${i}"/>`;
+                checkboxHtml += `<label for="${habit.name}-${i}">Giorno ${i}</label>`;
                 const html = parser.parseFromString(checkboxHtml, 'text/html');
                 container.append(html.body);
             }

@@ -1,5 +1,5 @@
 import { Habit } from "../models/Habit";
-import { HabitsRepository } from "../repositories/HabitsRepository";
+import { PostGreDBHabitsRepository as HabitsRepository } from "../repositories/PostgreDBHabitsRepository";
 
 export class AppController {
     constructor() { }
@@ -8,7 +8,7 @@ export class AppController {
         return await new HabitsRepository().getAll();
     }
 
-    async getSingle(id: string) {
+    async getSingle(id: number) {
         return await new HabitsRepository().getSingle(id);
     }
 
@@ -16,7 +16,7 @@ export class AppController {
         return await new HabitsRepository().insert(input);
     }
 
-    async delete() {
-        return await new HabitsRepository().delete("1");
+    async delete(id: number) {
+        return await new HabitsRepository().delete(id);
     }
 }
