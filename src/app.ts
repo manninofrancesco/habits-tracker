@@ -16,7 +16,25 @@ let server = https.createServer(parameters, app)
 
 app.get('/', async (req: Request, res: Response) => {
     try {
-        res.sendFile("./views/list.html", { root: "src" })
+        res.sendFile("./views/home.html", { root: "src" })
+    }
+    catch (error) {
+        res.send(`Error: ${error}`);
+    }
+})
+
+app.get('/add', async (req: Request, res: Response) => {
+    try {
+        res.sendFile("./views/add.html", { root: "src" })
+    }
+    catch (error) {
+        res.send(`Error: ${error}`);
+    }
+})
+
+app.get('/single', async (req: Request, res: Response) => {
+    try {
+        res.sendFile("./views/single.html", { root: "src" })
     }
     catch (error) {
         res.send(`Error: ${error}`);
@@ -53,11 +71,12 @@ app.get('/getSingle', async (req: Request, res: Response) => {
     }
 })
 
-app.get('/insert', async (req: Request, res: Response) => {
+app.post('/insert', async (req: Request, res: Response) => {
     try {
-        let exampleModel: Habit = new Habit(1, "Test Habit " + Math.floor(Math.random() * 9999999), 0, 61);
+        let exampleModel: Habit = new Habit(0, req.body.name, 0, req.body.todo);
 
         await new AppController().insert(exampleModel);
+
         res.redirect("/get");
     }
     catch (error) {

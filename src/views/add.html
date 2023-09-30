@@ -1,0 +1,38 @@
+<h1>Add new Habit ➕</h1>
+<main>
+    <input id="habit-name" type="text" placeholder="Insert habit name..." />
+    <input id="habit-todo" type="number" placeholder="Insert todo session in order to install habit" />
+    <button id="habit-save">Add new Habit ➕</button>
+</main>
+
+
+<script>
+    document.querySelector("#habit-save").addEventListener("click", () => {
+        let name = document.querySelector("#habit-name").value;
+        let todo = document.querySelector("#habit-todo").value;
+
+        let body = JSON.stringify({
+            "name": name,
+            "todo": todo
+        });
+
+        console.log(body);
+
+        fetch("/insert", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: body
+        }).then((result) => {
+            const stringHtml = "<h2>Habits saved 😁</h2>";
+            const parser = new DOMParser();
+            const html = parser.parseFromString(stringHtml, 'text/html');
+            document.querySelector("main").append(html.body);
+        }
+        );
+    });
+
+
+
+</script>

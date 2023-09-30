@@ -1,0 +1,25 @@
+<h1>Home 🏠</h1>
+<main>
+    <a href="/add">Add new Habit ➕</a>
+</main>
+
+
+<script>
+
+    fetch("/getAll", {
+        method: "GET",
+    }).then((result) => {
+        result.json().then((habits) => {
+            let stringHtml = "<h2>List of habits:</h2>";
+            for (let i = 0; i < habits.length; i++) {
+                stringHtml += "<b>Name:</b> " + habits[i].name + "<br/>";
+            }
+
+            const parser = new DOMParser();
+            const html = parser.parseFromString(stringHtml, 'text/html');
+            document.querySelector("main").append(html.body);
+        })
+    }
+    );
+
+</script>

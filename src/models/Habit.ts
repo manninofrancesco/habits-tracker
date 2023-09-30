@@ -1,13 +1,13 @@
 export class Habit {
-    Id: Number;
-    Name: String;
-    Done: Number;
-    Todo: Number;
+    id: number;
+    name: string;
+    done: number;
+    todo: number;
 
-    constructor(id: Number, name: String, done: Number, todo: Number) {
-        this.Id = id;
-        this.Name = name;
-        this.Done = done;
-        this.Todo = todo;
+    constructor(id: number, name: string, done: number, todo: number) {
+        this.id = id;
+        this.name = name;
+        this.done = done;
+        this.todo = todo;
     }
 }
