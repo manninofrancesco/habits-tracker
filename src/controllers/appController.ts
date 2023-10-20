@@ -16,6 +16,10 @@ export class AppController {
         return await new HabitsRepository().insert(input);
     }
 
+    async addDoneSession(id: number) {
+        return await new HabitsRepository().addDoneSession(id);
+    }
+
     async delete(id: number) {
         return await new HabitsRepository().delete(id);
     }

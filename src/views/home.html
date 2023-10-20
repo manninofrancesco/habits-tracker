@@ -1,18 +1,24 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
 <h1>Home 🏠</h1>
 <main>
     <a href="/add">Add new Habit ➕</a>
+    <br/>
+    <br/>
 </main>
 
-
 <script>
-
     fetch("/getAll", {
         method: "GET",
     }).then((result) => {
         result.json().then((habits) => {
             let stringHtml = "<h2>List of habits:</h2>";
             for (let i = 0; i < habits.length; i++) {
-                stringHtml += "<b>Name:</b> " + habits[i].name + "<br/>";
+                stringHtml += "<b>Name:</b> " + habits[i].name + "";
+                stringHtml += ` <a href='/detail?id=${habits[i].id}'>Apri ➡️</a><br/><br/><br/>`;
+                stringHtml += ` <a href='/delete?id=${habits[i].id}'>Elimina ❌</a><br/><br/><br/>`;
             }
 
             const parser = new DOMParser();
@@ -23,3 +29,16 @@
     );
 
 </script>
+
+<style>
+    html {
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 9px;
+    text-decoration: none;
+}
+</style>

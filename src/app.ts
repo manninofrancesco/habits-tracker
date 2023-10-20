@@ -12,6 +12,8 @@ const parameters = {
     cert: fs.readFileSync('./tutorial.crt', 'utf-8')
 }
 
+app.use(express.static(__dirname + '/src'));
+
 let server = https.createServer(parameters, app)
 
 app.get('/', async (req: Request, res: Response) => {
@@ -32,9 +34,9 @@ app.get('/add', async (req: Request, res: Response) => {
     }
 })
 
-app.get('/single', async (req: Request, res: Response) => {
+app.get('/detail', async (req: Request, res: Response) => {
     try {
-        res.sendFile("./views/single.html", { root: "src" })
+        res.sendFile("./views/detail.html", { root: "src" })
     }
     catch (error) {
         res.send(`Error: ${error}`);
@@ -86,10 +88,15 @@ app.post('/insert', async (req: Request, res: Response) => {
 
 app.get('/addDoneSession', async (req: Request, res: Response) => {
     try {
-        let exampleModel: Habit = new Habit(1, "Test Habit " + Math.floor(Math.random() * 9999999), 0, 61);
+        if (req.query.id) {
 
-        await new AppController().insert(exampleModel);
-        res.redirect("/get");
+            let id: number = parseInt(req.query.id.toString());
+
+            const appController = new AppController();
+
+            await appController.addDoneSession(id);
+            res.redirect(`/detail?${req.body.id}`);
+        }
     }
     catch (error) {
         res.send(`Error: ${error}`);
@@ -98,14 +105,13 @@ app.get('/addDoneSession', async (req: Request, res: Response) => {
 
 app.get('/delete', async (req: Request, res: Response) => {
     try {
-
         if (req.query.id) {
             let id: number = parseInt(req.query.id.toString());
             await new AppController().delete(id);
-            res.redirect("/get");
+            res.redirect("/");
+        } else {
+            res.sendFile("./views/delete.html", { root: "src" })
         }
-
-        throw new Error("Not valid ID");
     }
     catch (error) {
         res.send(`Error: ${error}`);

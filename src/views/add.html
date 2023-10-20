@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../css/app.css">
 <h1>Add new Habit ➕</h1>
 <main>
     <input id="habit-name" type="text" placeholder="Insert habit name..." />
@@ -25,10 +26,7 @@
             },
             body: body
         }).then((result) => {
-            const stringHtml = "<h2>Habits saved 😁</h2>";
-            const parser = new DOMParser();
-            const html = parser.parseFromString(stringHtml, 'text/html');
-            document.querySelector("main").append(html.body);
+            location.href = "/";
         }
         );
     });

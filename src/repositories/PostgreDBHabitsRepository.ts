@@ -49,12 +49,18 @@ export class PostGreDBHabitsRepository implements IHabitsRepository {
         await this.executeQuery(query, params);
     }
 
-    update(habit: Habit): Promise<void> {
-        throw new Error("Method not implemented.");
+    async addDoneSession(id: number): Promise<void> {
+        const query = "UPDATE \"Habits\" SET done = done + 1 WHERE id = $1";
+        const params = [id.toString()];
+
+        await this.executeVoidQuery(query, params);
     }
 
-    delete(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: number): Promise<void> {
+        const query = "DELETE FROM \"Habits\" WHERE id = $1";
+        const params = [id.toString()]
+
+        await this.executeQuery(query, params);
     }
 
     async executeQuery(query: string, params?: string[]): Promise<Habit[]> {
@@ -72,14 +78,18 @@ export class PostGreDBHabitsRepository implements IHabitsRepository {
         return response.rows as Habit[];
     }
 
-    async executeVoidQuery(query: string): Promise<void> {
+    async executeVoidQuery(query: string, params?: string[]): Promise<void> {
         const client = new pg.Client(this.config)
 
         await client.connect()
 
-        await client.query(query);
+        const queryObj = {
+            text: query,
+            values: params
+        };
+
+        await client.query(queryObj);
 
         await client.end()
     }
-
 }
